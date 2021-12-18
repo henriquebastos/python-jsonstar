@@ -1,9 +1,7 @@
-import requests
-
 from urllib.parse import urljoin
 
+import requests
 
-ENDPOINT = 'https://api2.eduzz.com/'
 
 # Taken from https://github.com/requests/toolbelt/
 class BaseUrlSession(requests.Session):
@@ -32,16 +30,18 @@ class ResponseAdapter:
         documented_statuses = (400, 401, 403, 404, 405, 409, 422, 500)
         if self.status_code in documented_statuses:
             json = self.json()
-            code, details = json['code'], json['details']
+            code, details = json["code"], json["details"]
 
-            raise EduzzAPIError(f'{code} {details}', response=self)
+            raise EduzzAPIError(f"{code} {details}", response=self)
 
         self._response.raise_for_status()
 
 
 class EduzzSession(BaseUrlSession):
-    def __init__(self, base_url=ENDPOINT):
-        super(EduzzSession, self).__init__(base_url=base_url)
+    ENDPOINT = "https://api2.eduzz.com/"
+
+    def __init__(self):
+        super(EduzzSession, self).__init__(base_url=self.ENDPOINT)
 
     def request(self, method, url, *args, **kwargs):
         r = super(EduzzSession, self).request(method, url, *args, **kwargs)
