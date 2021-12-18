@@ -4,7 +4,7 @@ from re import compile as regex
 import pytest
 import requests
 import responses
-from eduzz import EduzzToken
+from eduzz.auth import EduzzToken
 from eduzz.sessions import EduzzAPIError
 from eduzz.tests import ResponsesSequence
 from freezegun import freeze_time
