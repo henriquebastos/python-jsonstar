@@ -2,7 +2,7 @@ import requests
 from eduzz.serializers import JSONDecoder
 from urlobject import URLObject
 
-URL = URLObject('https://api2.eduzz.com/')
+URL = URLObject("https://api2.eduzz.com/")
 
 
 class Eduzz:
@@ -14,18 +14,20 @@ class Eduzz:
         token = None
         token_valid_until = None
 
-        params = {'start_date': start_date, 'end_date': end_date}
-        params['page'] = next_page
+        params = {"start_date": start_date, "end_date": end_date}
+        params["page"] = next_page
 
-        response = requests.get(URL.add_path('/sale/get_sale_list'), params=params, auth=self.credentials)
+        response = requests.get(
+            URL.add_path("/sale/get_sale_list"), params=params, auth=self.credentials
+        )
         response.raise_for_status()
         json = response.json(cls=JSONDecoder)
 
-        data = json['data']
-        paginator = json['paginator']
-        profile = json['profile']
-        token = profile['token']
-        token_valid_until = profile['token_valid_until']
+        data = json["data"]
+        paginator = json["paginator"]  # noqa
+        profile = json["profile"]
+        token = profile["token"]  # noqa
+        token_valid_until = profile["token_valid_until"]  # noqa
 
         yield from data
         #
@@ -44,4 +46,3 @@ class Eduzz:
         # headers['token'] = token
         #
         # yield from data
-

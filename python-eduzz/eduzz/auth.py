@@ -6,8 +6,8 @@ from .sessions import EduzzSession
 
 
 class EduzzToken(AuthBase):
-    AUTH_PATH = '/credential/generate_token'
-    TOKEN_EXPIRED_ERROR_CODE = '#0029'
+    AUTH_PATH = "/credential/generate_token"
+    TOKEN_EXPIRED_ERROR_CODE = "#0029"
 
     def __init__(self, email, publickey, apikey, session_class=EduzzSession):
         self.credentials = dict(email=email, publickey=publickey, apikey=apikey)
@@ -46,8 +46,8 @@ class EduzzToken(AuthBase):
 
         json = r.json()
 
-        self._token = json['data']['token']
-        self._token_valid_until = json['data']['token_valid_until']
+        self._token = json["data"]["token"]
+        self._token_valid_until = json["data"]["token_valid_until"]
 
     def handle_401(self, r, **kwargs):
         if r.status_code != 401:
@@ -55,7 +55,7 @@ class EduzzToken(AuthBase):
 
         # Only try to recover if token expired
         json = r.json()
-        if json['code'] != self.TOKEN_EXPIRED_ERROR_CODE:
+        if json["code"] != self.TOKEN_EXPIRED_ERROR_CODE:
             return r
 
         # force token renew
@@ -67,7 +67,7 @@ class EduzzToken(AuthBase):
         r.close()
         prep = r.request.copy()
 
-        prep.headers['Token'] = self.token
+        prep.headers["Token"] = self.token
         _r = r.connection.send(prep, **kwargs)
         _r.history.append(r)
         _r.request = prep
@@ -75,6 +75,6 @@ class EduzzToken(AuthBase):
         return _r
 
     def __call__(self, r):
-        r.headers['Token'] = self.token
-        r.register_hook('response', self.handle_401)
+        r.headers["Token"] = self.token
+        r.register_hook("response", self.handle_401)
         return r

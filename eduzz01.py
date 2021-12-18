@@ -1,15 +1,17 @@
-from decouple import config
-from eduzz import Eduzz
 from pprint import pprint
 
-credentials = dict(email=config('EDUZZ_EMAIL'),
-                   publickey=config('EDUZZ_PUBLICKEY'),
-                   apikey=config('EDUZZ_APIKEY'))
+from decouple import config
+from eduzz import Eduzz
+from eduzz.auth import EduzzToken
 
-client = Eduzz(credentials)
+credentials = dict(
+    email=config("EDUZZ_EMAIL"),
+    publickey=config("EDUZZ_PUBLICKEY"),
+    apikey=config("EDUZZ_APIKEY"),
+)
 
-g = client.get_sales_list('2021-11-01', '2021-12-15')
+client = Eduzz(EduzzToken(**credentials))
 
-pprint(sum(1 for _ in g))
+g = client.get_sales_list("2021-11-01", "2021-12-15")
 
-
+pprint(list(g))

@@ -1,7 +1,7 @@
 import datetime
 import decimal
-import uuid
 import json
+import uuid
 
 
 def patchjson():
@@ -35,14 +35,15 @@ class JSONEncoder(json.JSONEncoder):
 
     * Extracted from https://github.com/django/django/django/core/serializers/json.py
     """
+
     def default(self, o):
         # See "Date Time String Format" in the ECMA-262 specification.
         if isinstance(o, datetime.datetime):
             r = o.isoformat()
             if o.microsecond:
                 r = r[:23] + r[26:]
-            if r.endswith('+00:00'):
-                r = r[:-6] + 'Z'
+            if r.endswith("+00:00"):
+                r = r[:-6] + "Z"
             return r
         elif isinstance(o, datetime.date):
             return o.isoformat()
@@ -75,11 +76,13 @@ def _get_duration_components(duration):
 
 def duration_iso_string(duration):
     if duration < datetime.timedelta(0):
-        sign = '-'
+        sign = "-"
         duration *= -1
     else:
-        sign = ''
+        sign = ""
 
     days, hours, minutes, seconds, microseconds = _get_duration_components(duration)
-    ms = '.{:06d}'.format(microseconds) if microseconds else ""
-    return '{}P{}DT{:02d}H{:02d}M{:02d}{}S'.format(sign, days, hours, minutes, seconds, ms)
+    ms = ".{:06d}".format(microseconds) if microseconds else ""
+    return "{}P{}DT{:02d}H{:02d}M{:02d}{}S".format(
+        sign, days, hours, minutes, seconds, ms
+    )
