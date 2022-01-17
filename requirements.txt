@@ -6,3 +6,5 @@ toml==0.10.2
 wheel==0.37.0
 pytest==6.2.5
 URLObject~=2.4.3
+attrs==21.4.0
+cattrs==1.10.0
