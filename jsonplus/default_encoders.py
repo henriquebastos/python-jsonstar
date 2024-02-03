@@ -7,20 +7,29 @@ try:
     from django.db.models import Model
     from django.forms.models import model_to_dict
 
-    DJANGO_ENCODERS = {
+    DJANGO_TYPED_ENCODERS = {
         Model: model_to_dict,
     }
 except ImportError:
-    DJANGO_ENCODERS = {}
+    DJANGO_TYPED_ENCODERS = {}
+
 
 try:
     from pydantic import BaseModel
 
-    PYDANTIC_ENCODERS = {
+    PYDANTIC_TYPED_ENCODERS = {
         BaseModel: lambda o: o.dict(),
     }
 except ImportError:
-    PYDANTIC_ENCODERS = {}
+    PYDANTIC_TYPED_ENCODERS = {}
+
+
+try:
+    import attrs
+
+    ATTRS_FUNCTIONAL_ENCODERS = [lambda o: attrs.asdict(o)]
+except ImportError:
+    ATTRS_FUNCTIONAL_ENCODERS = ()
 
 
 def encode_timedelta_as_iso_string(duration):
@@ -34,7 +43,11 @@ def encode_timedelta_as_iso_string(duration):
     return f"{sign}P{days}DT{hours:02d}H{minutes:02d}M{seconds:02d}{ms}S"
 
 
-DEFAULT_ENCODERS = {
+DEFAULT_FUNCTIONAL_ENCODERS = [
+    *ATTRS_FUNCTIONAL_ENCODERS,
+]
+
+DEFAULT_TYPED_ENCODERS = {
     datetime.datetime: lambda o: o.isoformat(timespec="milliseconds").replace("+00:00", "Z"),
     datetime.date: lambda o: o.isoformat(),
     datetime.time: lambda o: o.isoformat(timespec="milliseconds"),
@@ -45,6 +58,6 @@ DEFAULT_ENCODERS = {
     bytes: lambda o: o.decode("utf-8"),
     set: list,
     frozenset: list,
-    **DJANGO_ENCODERS,
-    **PYDANTIC_ENCODERS,
+    **DJANGO_TYPED_ENCODERS,
+    **PYDANTIC_TYPED_ENCODERS,
 }
