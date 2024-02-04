@@ -54,8 +54,6 @@ DEFAULT_TYPED_ENCODERS = {
     datetime.timedelta: encode_timedelta_as_iso_string,
     decimal.Decimal: str,
     uuid.UUID: str,
-    complex: lambda o: [o.real, o.imag],
-    bytes: lambda o: o.decode("utf-8"),
     set: list,
     frozenset: list,
     **DJANGO_TYPED_ENCODERS,
