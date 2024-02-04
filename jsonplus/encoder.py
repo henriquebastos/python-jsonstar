@@ -12,7 +12,7 @@ __all__ = ["JSONEncoderPlus"]
 
 
 class FUNCTIONAL:
-    pass
+    """Sentinel type to register a functional encoder."""
 
 
 class JSONEncoderPlus(stdlib_json.JSONEncoder):
@@ -44,7 +44,7 @@ class JSONEncoderPlus(stdlib_json.JSONEncoder):
                 if base in d:
                     d.move_to_end(base)
 
-    def default(self, o):
+    def default(self, o) -> str:
         for base, encoder in self.typed_encoders.items():
             if isinstance(o, base):
                 return encoder(o)
