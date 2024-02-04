@@ -1,5 +1,6 @@
+import inspect
 import json as stdlib_json
-from collections import ChainMap
+from collections import ChainMap, OrderedDict
 from contextlib import suppress
 from itertools import chain
 
@@ -21,7 +22,7 @@ class JSONEncoderPlus(stdlib_json.JSONEncoder):
     def __init__(self, *args, functional_encoders=(), typed_encoders: dict[type, callable] = NULL_DICT, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self._typed_encoders = {**typed_encoders}
+        self._typed_encoders = OrderedDict(typed_encoders)
         self._functional_encoders = [*functional_encoders]
 
     @property
@@ -36,13 +37,17 @@ class JSONEncoderPlus(stdlib_json.JSONEncoder):
         if type_ is FUNCTIONAL:
             self._functional_encoders.append(function)
         else:
-            self.typed_encoders[type_] = function
+            # Register the type encoder and ensures inherited takes precedence over its base types encoders.
+            d = self._typed_encoders
+            d[type_] = function
+            for base in inspect.getmro(type_):
+                if base in d:
+                    d.move_to_end(base)
 
     def default(self, o):
-        type_ = type(o)
-
-        if encoder := self.typed_encoders.get(type_):
-            return encoder(o)
+        for base, encoder in self.typed_encoders.items():
+            if isinstance(o, base):
+                return encoder(o)
 
         for encoder in self.functional_encoders:
             with suppress(Exception):

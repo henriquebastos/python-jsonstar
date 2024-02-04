@@ -46,6 +46,33 @@ class TestTypedEncoders:
 
         assert encoder.encode(CustomType()) == '"Functional encoder"'
 
+    def test_inherited_types_are_supported_by_base_type_encoder(self, encoder):
+        class InheritedType(CustomType):
+            pass
+
+        encoder.register(lambda o: "CustomType encoder", CustomType)
+
+        assert encoder.encode(InheritedType()) == '"CustomType encoder"'
+
+    def test_encoder_for_inherited_type_has_precedence_over_encoder_for_base_type(self, encoder):
+        class Mother(CustomType):
+            pass
+
+        class Father(CustomType):
+            pass
+
+        class Child(Mother, Father):
+            pass
+
+        encoder.register(lambda o: "CustomType encoder", CustomType)
+        encoder.register(lambda o: "Father encoder", Father)
+        encoder.register(lambda o: "Child encoder", Child)
+
+        assert encoder.encode(CustomType()) == '"CustomType encoder"'
+        assert encoder.encode(Mother()) == '"CustomType encoder"'
+        assert encoder.encode(Father()) == '"Father encoder"'
+        assert encoder.encode(Child()) == '"Child encoder"'
+
 
 class TestFunctionalEncoders:
     def test_default_functional_encoders_are_used_when_nothing_else_is_registered(self, encoder):
