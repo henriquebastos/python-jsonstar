@@ -71,6 +71,8 @@ repos:
         types_or:
           - python
           - pyi
+        args:
+          - --max-line-length=120
 
       # https://python-poetry.org/docs/pre-commit-hooks/
       # https://github.com/python-poetry/poetry/blob/master/.pre-commit-hooks.yaml
