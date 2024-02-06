@@ -2,14 +2,14 @@
 
 JSONPlus extends Python's standard JSON encoder and decoder to easily handle your custom types.
 
-This means you won't have to transform your custom types into dictionaries with primitive types before encoding them to 
+This means you won't have to transform your custom types into dictionaries with primitive types before encoding them to
 JSON. And you won't have to parse back the encoded strings into your custom types after decoding them from JSON.
 
 ## How to install it?
 
 ```bash
 pip install jsonplus
-````
+```
 
 ## How to start using it?
 
@@ -37,14 +37,14 @@ employee = Employee(
     salary=Decimal("1000.00"),
     birthday=date(1990, 1, 1),
     roles={"A", "B", "C"},
-)    
+)
 ```
 
 The standard `json` module can't serialize the `employee` instance, requiring you to call its `dict` method.
-This will not sufice, because the standard `json` module don't know how to encode `Decimal`, `date` and `set`.
-Your solution would include some trasnfomation of the `employee` instance and its attributes before encoding it to JSON.
+This will not suffice because the standard `json` module doesn't know how to encode `Decimal`, `date` and `set`.
+Your solution would include some transformation of the `employee` instance and its attributes before encoding it to JSON.
 
-That is where `jsonplus` shines by providing default encoder for common types like `pydantic.BaseModel`, 
+That is where `jsonplus` shines by providing default encoder for common types like `pydantic.BaseModel`,
 `decimal.Decimal`, `datetime.date` and `set`. And allowing you to easily add your own encoders.
 
 ```python
@@ -73,7 +73,7 @@ By default, `jsonplus` provides encoders for the following types:
 
 For some complex types like Django Models, an opinionated default encoder would not work for everyone.
 
-This is why instead of providing a default encoder for Django Models, `jsonplus` provides you a configurable 
+This is why instead of providing a default encoder for Django Models, `jsonplus` provides you a configurable
 encoder class to allow you to define the desired encoding behavior.
 
 ```python
@@ -83,17 +83,17 @@ from jsonplus import DjangoModelEncoder
 json.register_default_encoder(Model, DjangoModelEncoder(exclude=[DjangoModelEncoder.RELATIONSHIPS]))
 ```
 
-The above code will register a default encoder for the `Model` class that will return all fields, excluding 
+The above code will register a default encoder for the `Model` class that will return all fields, excluding
 relationships.
 
 ### Can `jsonplus` add more default encoders?
 
-Yes. If you think that a default encoder for a common type is missing, please open an issue or a pull request. 
+Yes. If you think that a default encoder for a common type is missing, please open an issue or a pull request.
 See the *How to contribute* section for more details.
- 
+
 ## How do I add my own encoder?
 
-First you need to decide if you want your encoder to be available everywhere on your project or just for a specific 
+First you need to decide if you want your encoder to be available everywhere on your project or just for a specific
 code block.
 
 - *Default encoders* are globally available and will be used anywhere in your project.
@@ -156,9 +156,8 @@ print(json.dumps(data, cls={Decimal: two_decimas_encoder}))
 
 When registering a typed encoder, you simply pass the encoder and the type to the chosen registration method.
 
-When you add a typed encoder, `jsonplus` will check if any base class already has a registered encoder make sure the 
+When you add a typed encoder, `jsonplus` will check if any base class already has a registered encoder make sure the
 more generic encoder is used last, respecting Python's Method Resolution Order (MRO).
-
 
 ### How to add a functional encoder?
 
@@ -168,20 +167,22 @@ To register a functional encoder, you simply pass the encoder to the chosen regi
 
 All functional encoders are called only for objects that do not have a registered typed encoder.
 
-
 ## Contributing
+
 Pull requests are welcome and must have associated tests.
 
 For major changes, please open an issue first to discuss what you would like to change.
 
-
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Author
+
 Henrique Bastos <henrique@bastos.net>
 
 ## Project links
+
 - [Homepage](https://github.com/henriquebastos/python-jsonplus)
 - [Repository](https://github.com/henriquebastos/python-jsonplus)
 - [Documentation](https://github.com/henriquebastos/python-jsonplus)
