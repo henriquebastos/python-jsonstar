@@ -31,9 +31,31 @@ version = "1.0.0"
 description = "Extensible JSON module to serialize your custom types."
 authors = ["Henrique Bastos <henrique@bastos.net>"]
 license = "MIT"
-homepage = "https://github.com/henriquebastos/python-jsonplus"
-repository = "https://github.com/henriquebastos/python-jsonplus"
-documentation = "https://github.com/henriquebastos/python-jsonplus"
+readme = "README.md"
+packages = [
+    {include = "jsonplus", from = "."},
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/henriquebastos/python-jsonplus"
+Documentation = "https://github.com/henriquebastos/python-jsonplus"
+Repository = "https://github.com/henriquebastos/python-jsonplus"
+Issues = "https://github.com/henriquebastos/python-jsonplus/issues"
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
