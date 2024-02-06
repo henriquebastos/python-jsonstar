@@ -1,3 +1,4 @@
+import dataclasses
 import datetime
 import decimal
 import uuid
@@ -44,6 +45,7 @@ def encode_timedelta_as_iso_string(duration):
 
 
 DEFAULT_FUNCTIONAL_ENCODERS = [
+    lambda o: dataclasses.asdict(o),
     *ATTRS_FUNCTIONAL_ENCODERS,
 ]
 

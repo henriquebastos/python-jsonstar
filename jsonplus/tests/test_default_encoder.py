@@ -1,3 +1,4 @@
+import dataclasses
 import uuid
 from datetime import date, datetime, time, timedelta
 
@@ -177,3 +178,12 @@ class TestAttrsFunctionalEncoders:
             x: int
 
         assert encode(AttrsClass(x=5)) == '{"x": 5}'
+
+
+class TestDataclassFunctionalEncoders:
+    def test_dataclass_functional_encoder(self):
+        @dataclasses.dataclass
+        class DataclassClass:
+            x: int
+
+        assert encode(DataclassClass(x=5)) == '{"x": 5}'
