@@ -28,7 +28,7 @@ remove_redundant_aliases = true
 [tool.poetry]
 name = "jsonplus"
 version = "1.0.0"
-description = "Extensible JSON encoder and decoder to serialize your custom types."
+description = "Extensible JSON module to serialize your custom types."
 authors = ["Henrique Bastos <henrique@bastos.net>"]
 license = "MIT"
 homepage = "https://github.com/henriquebastos/python-jsonplus"

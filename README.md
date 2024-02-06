@@ -1,4 +1,4 @@
-# JSONPlus: Extensible json encoder to serialize your custom types.
+# JSONPlus: Extensible json module to serialize your custom types.
 
 JSONPlus extends Python's standard JSON encoder and decoder to easily handle your custom types.
 
@@ -97,7 +97,7 @@ First you need to decide if you want your encoder to be available everywhere on 
 code block.
 
 - *Default encoders* are globally available and will be used anywhere in your project.
-- *Instance encoders* are available only for the `JSONEncoder` instance that you register them.
+- *Instance encoders* are available only for the `JSONEncoderPlus` instance that you register them.
 
 Also you have two types of encoders to choose from:
 
@@ -125,8 +125,8 @@ json.register_default_encoder(Decimal, two_decimals_encoder)
 
 An instance encoder can be added in three ways:
 
-1. Using the `register` method on the `JSONEncoder` instance.
-2. Passing the encoder to the `JSONEncoder` initialization.
+1. Using the `register` method on the `JSONEncoderPlus` instance.
+2. Passing the encoder to the `JSONEncoderPlus` initialization.
 3. Passing the encoder to the `dumps` function.
 
 ```python
@@ -138,12 +138,12 @@ def two_decimals_encoder(obj):
     """Encodes a decimal with only two decimal places."""
     return str(obj.quantize(Decimal("1.00")))
 
-# 1. Using the `register` method on the `JSONEncoder` instance.
-encoder1 = json.JSONEncoder()
+# 1. Using the `register` method on the `JSONEncoderPlus` instance.
+encoder1 = json.JSONEncoderPlus()
 encoder1.register(two_decimals_encoder, Decimal)
 
-# 2. Passing the encoder to the `JSONEncoder` initialization.
-encoder2 = json.JSONEncoder(typed_encoders={Decimal: two_decimals_encoder})
+# 2. Passing the encoder to the `JSONEncoderPlus` initialization.
+encoder2 = json.JSONEncoderPlus(typed_encoders={Decimal: two_decimals_encoder})
 
 
 # 3. Passing the encoder to the `dumps` function.
