@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from jsonplus.encoder import JSONEncoderPlus
+from jsonplus.encoder import JSONEncoderStar
 
 
 class CustomType:
@@ -12,7 +12,7 @@ class CustomType:
     """
 
 
-class JSONEncoderTest(JSONEncoderPlus):
+class JSONEncoderTest(JSONEncoderStar):
     default_typed_encoders = {}
     default_functional_encoders = []
 

@@ -8,7 +8,7 @@ from jsonplus.default_encoders import DEFAULT_FUNCTIONAL_ENCODERS, DEFAULT_TYPED
 from jsonplus.null_dict import NULL_DICT
 
 
-__all__ = ["JSONEncoderPlus"]
+__all__ = ["JSONEncoderStar"]
 
 
 class TypedEncoderRegistry(OrderedDict):
@@ -20,7 +20,7 @@ class TypedEncoderRegistry(OrderedDict):
                 self.move_to_end(base)
 
 
-class JSONEncoderPlus(stdlib_json.JSONEncoder):
+class JSONEncoderStar(stdlib_json.JSONEncoder):
     class FUNCTIONAL:
         """Sentinel type to register a functional encoder."""
 

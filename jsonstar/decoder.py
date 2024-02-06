@@ -2,7 +2,7 @@ import datetime
 import json as stdlib_json
 
 
-class JSONDecoderPlus(stdlib_json.JSONDecoder):
+class JSONDecoderStar(stdlib_json.JSONDecoder):
     def __init__(self, *args, **kwargs):
         super().__init__(object_hook=self.hook, *args, **kwargs)
 

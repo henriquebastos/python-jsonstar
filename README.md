@@ -1,6 +1,6 @@
-# JSONPlus: Extensible json module to serialize your custom types.
+# jsonstar: Extensible json module to serialize all objects.
 
-JSONPlus extends Python's standard JSON encoder and decoder to easily handle your custom types.
+jsonstar extends Python's standard JSON encoder and decoder to easily handle your custom types.
 
 This means you won't have to transform your custom types into dictionaries with primitive types before encoding them to
 JSON. And you won't have to parse back the encoded strings into your custom types after decoding them from JSON.
@@ -8,14 +8,14 @@ JSON. And you won't have to parse back the encoded strings into your custom type
 ## How to install it?
 
 ```bash
-pip install jsonplus
+pip install jsonstar
 ````
 
 ## How to start using it?
 
-The `jsonplus` module provides the same API as the standard `json` module, so you can use it as a drop in replacement.
+The `jsonstar` module provides the same API as the standard `json` module, so you can use it as a drop in replacement.
 
-Simply change your import from `import json` to `import jsonplus as json` and you're good to go.
+Simply change your import from `import json` to `import jsonstar as json` and you're good to go.
 
 ## Why use it?
 
@@ -44,18 +44,18 @@ The standard `json` module can't serialize the `employee` instance, requiring yo
 This will not sufice, because the standard `json` module don't know how to encode `Decimal`, `date` and `set`.
 Your solution would include some trasnfomation of the `employee` instance and its attributes before encoding it to JSON.
 
-That is where `jsonplus` shines by providing default encoder for common types like `pydantic.BaseModel`,
+That is where `jsonstar` shines by providing default encoder for common types like `pydantic.BaseModel`,
 `decimal.Decimal`, `datetime.date` and `set`. And allowing you to easily add your own encoders.
 
 ```python
-from jsonplus as json
+from jsonstar as json
 print(json.dumps(employee))
 # {"name": "John Doe", "salary": "1000.00", "birthday": "1990-01-01", "roles": ["A", "B", "C"]}
 ```
 
 ## What default encoders are provided?
 
-By default, `jsonplus` provides encoders for the following types:
+By default, `jsonstar` provides encoders for the following types:
 
 - `attrs` classes
 - `dataclasses.dataclass` classes
@@ -73,12 +73,12 @@ By default, `jsonplus` provides encoders for the following types:
 
 For some complex types like Django Models, an opinionated default encoder would not work for everyone.
 
-This is why instead of providing a default encoder for Django Models, `jsonplus` provides you a configurable
+This is why instead of providing a default encoder for Django Models, `jsonstar` provides you a configurable
 encoder class to allow you to define the desired encoding behavior.
 
 ```python
-import jsonplus as json
-from jsonplus import DjangoModelEncoder
+import jsonstar as json
+from jsonstar import DjangoModelEncoder
 
 json.register_default_encoder(Model, DjangoModelEncoder(exclude=[DjangoModelEncoder.RELATIONSHIPS]))
 ```
@@ -86,7 +86,7 @@ json.register_default_encoder(Model, DjangoModelEncoder(exclude=[DjangoModelEnco
 The above code will register a default encoder for the `Model` class that will return all fields, excluding
 relationships.
 
-### Can `jsonplus` add more default encoders?
+### Can `jsonstar` add more default encoders?
 
 Yes. If you think that a default encoder for a common type is missing, please open an issue or a pull request.
 See the *How to contribute* section for more details.
@@ -97,7 +97,7 @@ First you need to decide if you want your encoder to be available everywhere on 
 code block.
 
 - *Default encoders* are globally available and will be used anywhere in your project.
-- *Instance encoders* are available only for the `JSONEncoderPlus` instance that you register them.
+- *Instance encoders* are available only for the `JSONEncoderStar` instance that you register them.
 
 Also you have two types of encoders to choose from:
 
@@ -106,10 +106,10 @@ Also you have two types of encoders to choose from:
 
 ### How to add a default encoder?
 
-To add a default encoder use the `register_default_encoder` function on the `jsonplus` module.
+To add a default encoder use the `register_default_encoder` function on the `jsonstar` module.
 
 ```python
-import jsonplus as json
+import jsonstar as json
 from decimal import Decimal
 
 
@@ -125,12 +125,12 @@ json.register_default_encoder(Decimal, two_decimals_encoder)
 
 An instance encoder can be added in three ways:
 
-1. Using the `register` method on the `JSONEncoderPlus` instance.
-2. Passing the encoder to the `JSONEncoderPlus` initialization.
+1. Using the `register` method on the `JSONEncoderStar` instance.
+2. Passing the encoder to the `JSONEncoderStar` initialization.
 3. Passing the encoder to the `dumps` function.
 
 ```python
-import jsonplus as json
+import jsonstar as json
 from decimal import Decimal
 
 
@@ -138,13 +138,13 @@ def two_decimals_encoder(obj):
     """Encodes a decimal with only two decimal places."""
     return str(obj.quantize(Decimal("1.00")))
 
-# 1. Using the `register` method on the `JSONEncoderPlus` instance.
-encoder1 = json.JSONEncoderPlus()
+
+# 1. Using the `register` method on the `JSONEncoderStar` instance.
+encoder1 = json.JSONEncoderStar()
 encoder1.register(two_decimals_encoder, Decimal)
 
-# 2. Passing the encoder to the `JSONEncoderPlus` initialization.
-encoder2 = json.JSONEncoderPlus(typed_encoders={Decimal: two_decimals_encoder})
-
+# 2. Passing the encoder to the `JSONEncoderStar` initialization.
+encoder2 = json.JSONEncoderStar(typed_encoders={Decimal: two_decimals_encoder})
 
 # 3. Passing the encoder to the `dumps` function.
 print(json.dumps(data, cls={Decimal: two_decimas_encoder}))
@@ -156,7 +156,7 @@ print(json.dumps(data, cls={Decimal: two_decimas_encoder}))
 
 When registering a typed encoder, you simply pass the encoder and the type to the chosen registration method.
 
-When you add a typed encoder, `jsonplus` will check if any base class already has a registered encoder make sure the
+When you add a typed encoder, `jsonstar` will check if any base class already has a registered encoder make sure the
 more generic encoder is used last, respecting Python's Method Resolution Order (MRO).
 
 
@@ -182,6 +182,6 @@ For major changes, please open an issue first to discuss what you would like to 
 Henrique Bastos <henrique@bastos.net>
 
 ## Project links
-- [Homepage](https://github.com/henriquebastos/python-jsonplus)
-- [Repository](https://github.com/henriquebastos/python-jsonplus)
-- [Documentation](https://github.com/henriquebastos/python-jsonplus)
+- [Homepage](https://github.com/henriquebastos/python-jsonstar)
+- [Repository](https://github.com/henriquebastos/python-jsonstar)
+- [Documentation](https://github.com/henriquebastos/python-jsonstar)

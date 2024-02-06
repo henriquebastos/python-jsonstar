@@ -26,14 +26,14 @@ py_version = "auto"
 remove_redundant_aliases = true
 
 [tool.poetry]
-name = "jsonplus"
+name = "jsonstar"
 version = "1.0.0"
-description = "Extensible JSON module to serialize your custom types."
+description = "Extensible JSON module to serialize all objects."
 authors = ["Henrique Bastos <henrique@bastos.net>"]
 license = "MIT"
 readme = "README.md"
 packages = [
-    {include = "jsonplus", from = "."},
+    {include = "jsonstar", from = "."},
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -51,10 +51,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/henriquebastos/python-jsonplus"
-Documentation = "https://github.com/henriquebastos/python-jsonplus"
-Repository = "https://github.com/henriquebastos/python-jsonplus"
-Issues = "https://github.com/henriquebastos/python-jsonplus/issues"
+Homepage = "https://github.com/henriquebastos/python-jsonstar"
+Documentation = "https://github.com/henriquebastos/python-jsonstar"
+Repository = "https://github.com/henriquebastos/python-jsonstar"
+Issues = "https://github.com/henriquebastos/python-jsonstar/issues"
 
 
 [tool.poetry.dependencies]

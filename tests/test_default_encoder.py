@@ -8,11 +8,11 @@ from freezegun import freeze_time
 from pydantic import BaseModel
 from pytz import timezone
 
-from jsonplus import JSONEncoderPlus
+from jsonplus import JSONEncoderStar
 
 
 def encode(o):
-    return JSONEncoderPlus().encode(o).strip("'\"")
+    return JSONEncoderStar().encode(o).strip("'\"")
 
 
 class TestDatetimeEncoder:
