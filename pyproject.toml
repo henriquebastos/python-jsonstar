@@ -1,0 +1,55 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | \.idea
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+atomic = true
+case_sensitive = true
+filter_files = true
+line_length = 120
+lines_after_imports = 2
+profile = "black"
+py_version = "auto"
+remove_redundant_aliases = true
+
+[tool.poetry]
+name = "jsonplus"
+version = "1.0.0"
+description = "Extensible JSON encoder and decoder to serialize your custom types."
+authors = ["Henrique Bastos <henrique@bastos.net>"]
+license = "MIT"
+homepage = "https://github.com/henriquebastos/python-jsonplus"
+repository = "https://github.com/henriquebastos/python-jsonplus"
+documentation = "https://github.com/henriquebastos/python-jsonplus"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.1.1"
+flake8 = "^7.0.0"
+freezegun = "^1.4.0"
+isort = "^5.13.2"
+pre-commit = "^3.6.0"
+pylint = "^3.0.3"
+pytest = "^8.0.0"
+pytz = "^2024.1"
+pydantic = "^2.6.0"
+attrs = "^23.2.0"
+django = "^5.0.1"
+
+[tool.pytest.ini_options]
+python_files = 'test*.py'
