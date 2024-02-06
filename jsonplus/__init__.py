@@ -18,3 +18,7 @@ def load(fp, *, cls=None, **kwargs):
 
 def loads(obj, cls=JSONDecoderPlus, **kwargs):
     return stdlib_json.loads(obj, cls=cls, **kwargs)
+
+
+def register_default_encoder(function, type_=JSONEncoderPlus.FUNCTIONAL):
+    return JSONEncoderPlus.register_default_encoder(function, type_)

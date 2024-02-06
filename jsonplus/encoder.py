@@ -11,18 +11,26 @@ from jsonplus.null_dict import NULL_DICT
 __all__ = ["JSONEncoderPlus"]
 
 
-class FUNCTIONAL:
-    """Sentinel type to register a functional encoder."""
+class TypedEncoderRegistry(OrderedDict):
+    def __setitem__(self, type_, function):
+        """Register the type encoder and ensures inherited takes precedence over its base types encoders."""
+        super().__setitem__(type_, function)
+        for base in inspect.getmro(type_):
+            if base in self:
+                self.move_to_end(base)
 
 
 class JSONEncoderPlus(stdlib_json.JSONEncoder):
-    default_typed_encoders = DEFAULT_TYPED_ENCODERS
+    class FUNCTIONAL:
+        """Sentinel type to register a functional encoder."""
+
+    default_typed_encoders = TypedEncoderRegistry(DEFAULT_TYPED_ENCODERS)
     default_functional_encoders = DEFAULT_FUNCTIONAL_ENCODERS
 
     def __init__(self, *args, functional_encoders=(), typed_encoders: dict[type, callable] = NULL_DICT, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self._typed_encoders = OrderedDict(typed_encoders)
+        self._typed_encoders = TypedEncoderRegistry(typed_encoders)
         self._functional_encoders = [*functional_encoders]
 
     @property
@@ -34,15 +42,17 @@ class JSONEncoderPlus(stdlib_json.JSONEncoder):
         return ChainMap(self._typed_encoders, self.default_typed_encoders)
 
     def register(self, function, type_=FUNCTIONAL):
-        if type_ is FUNCTIONAL:
+        if type_ is self.FUNCTIONAL:
             self._functional_encoders.append(function)
         else:
-            # Register the type encoder and ensures inherited takes precedence over its base types encoders.
-            d = self._typed_encoders
-            d[type_] = function
-            for base in inspect.getmro(type_):
-                if base in d:
-                    d.move_to_end(base)
+            self._typed_encoders[type_] = function
+
+    @classmethod
+    def register_default_encoder(cls, function, type_=FUNCTIONAL):
+        if type_ is cls.FUNCTIONAL:
+            cls.default_functional_encoders.append(function)
+        else:
+            cls.default_typed_encoders[type_] = function
 
     def default(self, o) -> str:
         for base, encoder in self.typed_encoders.items():
