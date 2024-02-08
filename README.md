@@ -1,6 +1,6 @@
-# jsonstar: Extensible json module to serialize all objects.
+# JSON* is an extensible json module to serialize all objects!
 
-jsonstar extends Python's standard JSON encoder and decoder to easily handle your custom types.
+`jsonstar` extends Python's standard JSON encoder and decoder to easily handle your custom types.
 
 This means you won't have to transform your custom types into dictionaries with primitive types before encoding them to
 JSON. And you won't have to parse back the encoded strings into your custom types after decoding them from JSON.
@@ -167,7 +167,6 @@ more generic encoder is used last, respecting Python's Method Resolution Order (
 To register a functional encoder, you simply pass the encoder to the chosen registration method omiting the type.
 
 All functional encoders are called only for objects that do not have a registered typed encoder.
-
 
 ## Contributing
 Pull requests are welcome and must have associated tests.
