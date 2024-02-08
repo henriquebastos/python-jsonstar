@@ -87,7 +87,7 @@ repos:
       - id: poetry-lock
         name: poetry lock (local)
         description: Ensure lock file is up-to-date
-        entry: bash -c 'poetry lock -n --check || poetry lock -n --no-update'
+        entry: bash -c 'poetry check --lock -n || poetry lock -n --no-update'
         language: system
         pass_filenames: false
         files: ^(pyproject\.toml|poetry\.lock)$
