@@ -29,6 +29,6 @@ jobs:
           poetry run pytest
       - name: Build package
         run: |
-          python -m build sdist bdist_wheel
+          python -m build sdist
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
