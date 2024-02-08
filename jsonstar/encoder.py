@@ -4,8 +4,8 @@ from collections import ChainMap, OrderedDict
 from contextlib import suppress
 from itertools import chain
 
-from jsonplus.default_encoders import DEFAULT_FUNCTIONAL_ENCODERS, DEFAULT_TYPED_ENCODERS
-from jsonplus.null_dict import NULL_DICT
+from jsonstar.default_encoders import DEFAULT_FUNCTIONAL_ENCODERS, DEFAULT_TYPED_ENCODERS
+from jsonstar.null_dict import NULL_DICT
 
 
 __all__ = ["JSONEncoderStar"]

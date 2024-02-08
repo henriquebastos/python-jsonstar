@@ -1,7 +1,7 @@
 import json as stdlib_json
 
-from jsonplus.decoder import JSONDecoderStar
-from jsonplus.encoder import JSONEncoderStar
+from jsonstar.decoder import JSONDecoderStar
+from jsonstar.encoder import JSONEncoderStar
 
 
 def dump(obj, fp, cls=JSONDecoderStar, **kwargs):

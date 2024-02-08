@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from jsonplus.encoder import JSONEncoderStar
+from jsonstar.encoder import JSONEncoderStar
 
 
 class CustomType:

@@ -8,7 +8,7 @@ from freezegun import freeze_time
 from pydantic import BaseModel
 from pytz import timezone
 
-from jsonplus import JSONEncoderStar
+from jsonstar import JSONEncoderStar
 
 
 def encode(o):
