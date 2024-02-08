@@ -135,21 +135,21 @@ class TestDjangoModelEncoder:
         assert encode(user(username="testuser", password="testpass")) == (
             '{"id": null, "password": "testpass", "last_login": null, "is_superuser": false, "username": "testuser", '
             '"first_name": "", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": '
-            '"2024-01-01T00:00:00.000Z", "groups": [], "user_permissions": []}'
+            '"2024-01-01T00:00:00.000", "groups": [], "user_permissions": []}'
         )
 
     def test_django_model_encoder_handles_empty_model(self, user):
         assert encode(user()) == (
             '{"id": null, "password": "", "last_login": null, "is_superuser": false, "username": "", "first_name": "", '
             '"last_name": "", "email": "", "is_staff": false, "is_active": true, '
-            '"date_joined": "2024-01-01T00:00:00.000Z", "groups": [], "user_permissions": []}'
+            '"date_joined": "2024-01-01T00:00:00.000", "groups": [], "user_permissions": []}'
         )
 
     def test_django_model_encoder_handles_model_with_null_fields(self, user):
         assert encode(user(username=None, password=None)) == (
             '{"id": null, "password": null, "last_login": null, "is_superuser": false, "username": null, '
             '"first_name": "", "last_name": "", "email": "", "is_staff": false, "is_active": true, '
-            '"date_joined": "2024-01-01T00:00:00.000Z", "groups": [], "user_permissions": []}'
+            '"date_joined": "2024-01-01T00:00:00.000", "groups": [], "user_permissions": []}'
         )
 
 

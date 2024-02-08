@@ -58,7 +58,7 @@ Issues = "https://github.com/henriquebastos/python-jsonstar/issues"
 
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.9"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.1.1"
@@ -71,7 +71,7 @@ pytest = "^8.0.0"
 pytz = "^2024.1"
 pydantic = "^2.6.0"
 attrs = "^23.2.0"
-django = "^5.0.1"
+django = "^4.2.10"
 
 [tool.pytest.ini_options]
 python_files = 'test*.py'
