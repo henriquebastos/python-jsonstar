@@ -15,7 +15,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install poetry
           poetry install
-      - uses: pre-commit/action@v3.0.0
+      - name: Run pre-commit
+        run: |
+          poetry run pre-commit --all-files
 
   testing:
     runs-on: ubuntu-latest
