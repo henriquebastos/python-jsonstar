@@ -72,6 +72,7 @@ pytz = "^2024.1"
 pydantic = "^2.6.0"
 attrs = "^23.2.0"
 django = "^4.2.10"
+build = "^1.0.3"
 
 [tool.pytest.ini_options]
 python_files = 'test*.py'
