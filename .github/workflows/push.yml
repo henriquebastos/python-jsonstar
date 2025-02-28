@@ -1,37 +1,10 @@
-name: Lint and test.
+name: Lint and Test
 
 on: [push]
 
 jobs:
-  linting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip poetry
-          poetry install
-      - name: Lint
-        run: |
-          poetry run pre-commit run --all-files
+  lint:
+    uses: ./.github/workflows/lint.yml
 
-  testing:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10", "3.11"]
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip poetry
-          poetry install
-      - name: Test
-        run: poetry run pytest
+  test:
+    uses: ./.github/workflows/test.yml
