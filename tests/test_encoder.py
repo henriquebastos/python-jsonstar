@@ -13,8 +13,7 @@ class CustomType:
 
 
 class JSONEncoderTest(JSONEncoderStar):
-    default_typed_encoders = {}
-    default_functional_encoders = []
+    pass
 
 
 @pytest.fixture
@@ -22,20 +21,26 @@ def encoder():
     return JSONEncoderTest()
 
 
+@pytest.fixture(autouse=True)
+def empty_encoder_class(monkeypatch):
+    monkeypatch.setattr(JSONEncoderTest, "_default_functional_encoders", [])
+    monkeypatch.setattr(JSONEncoderTest, "_default_typed_encoders", {})
+
+
 class TestTypedEncoders:
     def test_default_typed_encoders_are_used_when_nothing_else_is_registered(self, encoder):
-        encoder.default_typed_encoders = {CustomType: lambda o: "CustomType default encoder"}
+        encoder.__class__._default_typed_encoders = {CustomType: lambda o: "CustomType default encoder"}
 
         assert encoder.encode(CustomType()) == '"CustomType default encoder"'
 
     def test_typed_encoders_have_precedence_over_default_type_encoders(self, encoder):
-        encoder.default_typed_encoders = {CustomType: lambda o: "CustomType default encoder"}
+        encoder.__class__._default_typed_encoders = {CustomType: lambda o: "CustomType default encoder"}
         encoder.register(lambda o: "CustomType encoder", CustomType)
 
         assert encoder.encode(CustomType()) == '"CustomType encoder"'
 
     def test_typed_encoders_have_precedence_over_functional_encoders(self, encoder):
-        encoder.default_typed_encoders = {CustomType: lambda o: "CustomType default encoder"}
+        encoder.__class__._default_typed_encoders = {CustomType: lambda o: "CustomType default encoder"}
         encoder.register(lambda o: "CustomType encoder", CustomType)
         encoder.register(lambda o: "Functional encoder")
 
@@ -76,12 +81,12 @@ class TestTypedEncoders:
 
 class TestFunctionalEncoders:
     def test_default_functional_encoders_are_used_when_nothing_else_is_registered(self, encoder):
-        encoder.default_functional_encoders = [lambda o: "default functional encoder"]
+        encoder.__class__._default_functional_encoders = [lambda o: "default functional encoder"]
 
         assert encoder.encode(CustomType()) == '"default functional encoder"'
 
     def test_functional_encoders_have_precedence_over_default_functional_encoders(self, encoder):
-        encoder.default_functional_encoders = [lambda o: "default functional encoder"]
+        encoder.__class__._default_functional_encoders = [lambda o: "default functional encoder"]
         encoder.register(lambda o: "functional encoder")
 
         assert encoder.encode(CustomType()) == '"functional encoder"'

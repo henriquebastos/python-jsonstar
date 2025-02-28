@@ -18,8 +18,11 @@ except ImportError:
 try:
     from pydantic import BaseModel
 
+    def pydantic_dict(o):
+        return o.dict()
+
     PYDANTIC_TYPED_ENCODERS = {
-        BaseModel: lambda o: o.dict(),
+        BaseModel: pydantic_dict,
     }
 except ImportError:
     PYDANTIC_TYPED_ENCODERS = {}
@@ -28,7 +31,10 @@ except ImportError:
 try:
     import attrs
 
-    ATTRS_FUNCTIONAL_ENCODERS = [lambda o: attrs.asdict(o)]
+    def attrs_dict(o):
+        return attrs.asdict(o)
+
+    ATTRS_FUNCTIONAL_ENCODERS = [attrs_dict]
 except ImportError:
     ATTRS_FUNCTIONAL_ENCODERS = ()
 
@@ -44,8 +50,12 @@ def encode_timedelta_as_iso_string(duration):
     return f"{sign}P{days}DT{hours:02d}H{minutes:02d}M{seconds:02d}{ms}S"
 
 
+def dataclasses_asdict(o):
+    return dataclasses.asdict(o)
+
+
 DEFAULT_FUNCTIONAL_ENCODERS = [
-    lambda o: dataclasses.asdict(o),
+    dataclasses_asdict,
     *ATTRS_FUNCTIONAL_ENCODERS,
 ]
 
