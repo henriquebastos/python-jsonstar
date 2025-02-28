@@ -2,6 +2,15 @@
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+[project]
+name = "jsonstar"
+
+[project.urls]
+Homepage = "https://github.com/henriquebastos/python-jsonstar"
+Documentation = "https://github.com/henriquebastos/python-jsonstar"
+Repository = "https://github.com/henriquebastos/python-jsonstar"
+Issues = "https://github.com/henriquebastos/python-jsonstar/issues"
+
 [tool.black]
 line-length = 120
 target-version = ['py311']
@@ -49,13 +58,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-
-[project.urls]
-Homepage = "https://github.com/henriquebastos/python-jsonstar"
-Documentation = "https://github.com/henriquebastos/python-jsonstar"
-Repository = "https://github.com/henriquebastos/python-jsonstar"
-Issues = "https://github.com/henriquebastos/python-jsonstar/issues"
-
 
 [tool.poetry.dependencies]
 python = ">=3.9"
