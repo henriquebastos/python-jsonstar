@@ -2,14 +2,13 @@
 
 `jsonstar` extends Python's standard JSON encoder and decoder to easily handle your custom types.
 
-This means you won't have to transform your custom types into dictionaries with primitive types before encoding them to
-JSON. And you won't have to parse back the encoded strings into your custom types after decoding them from JSON.
+This means you won't have to transform your custom types into dictionaries with primitive types before encoding them to JSON. And you won't have to parse back the encoded strings into your custom types after decoding them from JSON.
 
 ## How to install it?
 
 ```bash
 pip install jsonstar
-````
+```
 
 ## How to start using it?
 
@@ -41,7 +40,7 @@ employee = Employee(
 ```
 
 The standard `json` module can't serialize the `employee` instance, requiring you to call its `dict` method.
-This will not sufice, because the standard `json` module don't know how to encode `Decimal`, `date` and `set`.
+This will not suffice, because the standard `json` module don't know how to encode `Decimal`, `date` and `set`.
 Your solution would include some transfomation of the `employee` instance and its attributes before encoding it to JSON.
 
 That is where `jsonstar` shines by providing default encoder for common types like `pydantic.BaseModel`,
@@ -125,9 +124,7 @@ json.register_default_encoder(Decimal, two_decimals_encoder)
 
 When registering a typed encoder, you simply pass the encoder and the type to the chosen registration method.
 
-When you add a typed encoder, `jsonstar` will check if any base class already has a registered encoder make sure the
-more generic encoder is used last, respecting Python's Method Resolution Order (MRO).
-
+When you add a typed encoder, `jsonstar` will check if any base class already has a registered encoder make sure the more generic encoder is used last, respecting Python's Method Resolution Order (MRO).
 
 ### How to add a functional encoder?
 
@@ -137,20 +134,22 @@ To register a functional encoder, you simply pass the encoder to the chosen regi
 
 All functional encoders are called only for objects that do not have a registered typed encoder.
 
-
 ## Contributing
+
 Pull requests are welcome and must have associated tests.
 
 For major changes, please open an issue first to discuss what you would like to change.
 
-
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Author
+
 Henrique Bastos <henrique@bastos.net>
 
 ## Project links
+
 - [Homepage](https://github.com/henriquebastos/python-jsonstar)
 - [Repository](https://github.com/henriquebastos/python-jsonstar)
 - [Documentation](https://github.com/henriquebastos/python-jsonstar)
