@@ -42,7 +42,7 @@ employee = Employee(
 
 The standard `json` module can't serialize the `employee` instance, requiring you to call its `dict` method.
 This will not sufice, because the standard `json` module don't know how to encode `Decimal`, `date` and `set`.
-Your solution would include some trasnfomation of the `employee` instance and its attributes before encoding it to JSON.
+Your solution would include some transfomation of the `employee` instance and its attributes before encoding it to JSON.
 
 That is where `jsonstar` shines by providing default encoder for common types like `pydantic.BaseModel`,
 `decimal.Decimal`, `datetime.date` and `set`. And allowing you to easily add your own encoders.
@@ -69,23 +69,6 @@ By default, `jsonstar` provides encoders for the following types:
 - `set`
 - `uuid.UUID`
 
-### Configurable default encoders
-
-For some complex types like Django Models, an opinionated default encoder would not work for everyone.
-
-This is why instead of providing a default encoder for Django Models, `jsonstar` provides you a configurable
-encoder class to allow you to define the desired encoding behavior.
-
-```python
-import jsonstar as json
-from jsonstar import DjangoModelEncoder
-
-json.register_default_encoder(Model, DjangoModelEncoder(exclude=[DjangoModelEncoder.RELATIONSHIPS]))
-```
-
-The above code will register a default encoder for the `Model` class that will return all fields, excluding
-relationships.
-
 ### Can `jsonstar` add more default encoders?
 
 Yes. If you think that a default encoder for a common type is missing, please open an issue or a pull request.
@@ -93,20 +76,35 @@ See the *How to contribute* section for more details.
 
 ## How do I add my own encoder?
 
-First you need to decide if you want your encoder to be available everywhere on your project or just for a specific
-code block.
+First you need to decide where you want your encoder to be available:
 
-- *Default encoders* are globally available and will be used anywhere in your project.
-- *Instance encoders* are available only for the `JSONEncoderStar` instance that you register them.
+1. *Class default encoders* happen when your `MyEncoder` class inherits from `JSONEncoderStar` and you add encoders to it.
+2. *Library-wide default encoder* are added directly to `JSONEncoderStar` class and is available everywhere in your project.
 
 Also you have two types of encoders to choose from:
 
 - *Typed encoders* are used to encode a specific type identified by `isinstance`.
 - *Functional encoders* are used to encode an object based on arbitraty logic.
 
-### How to add a default encoder?
+*Note:* From experience we find that *class encoders* are the most common use case.
 
-To add a default encoder use the `register_default_encoder` function on the `jsonstar` module.
+### How to add class default encoders?
+
+```python
+import jsonstar as json
+from decimal import Decimal
+from datetime import date
+
+
+# You can declare it on the special class attributes
+class MyEncoder(json.JSONEncoderStar):
+    _default_typed_encoders = {Decimal: lambda o: str(o.quantize(Decimal("1.00")))}
+
+# Or you can register it after the class is declared
+MyEncoder.register_default_encoder(lambda o: o.strftime("%Y-%m-%d"), date)
+```
+
+### How to add a library-wide default encoder?
 
 ```python
 import jsonstar as json
@@ -119,35 +117,6 @@ def two_decimals_encoder(obj):
 
 
 json.register_default_encoder(Decimal, two_decimals_encoder)
-```
-
-### How to add an instance encoder?
-
-An instance encoder can be added in three ways:
-
-1. Using the `register` method on the `JSONEncoderStar` instance.
-2. Passing the encoder to the `JSONEncoderStar` initialization.
-3. Passing the encoder to the `dumps` function.
-
-```python
-import jsonstar as json
-from decimal import Decimal
-
-
-def two_decimals_encoder(obj):
-    """Encodes a decimal with only two decimal places."""
-    return str(obj.quantize(Decimal("1.00")))
-
-
-# 1. Using the `register` method on the `JSONEncoderStar` instance.
-encoder1 = json.JSONEncoderStar()
-encoder1.register(two_decimals_encoder, Decimal)
-
-# 2. Passing the encoder to the `JSONEncoderStar` initialization.
-encoder2 = json.JSONEncoderStar(typed_encoders={Decimal: two_decimals_encoder})
-
-# 3. Passing the encoder to the `dumps` function.
-print(json.dumps(data, cls={Decimal: two_decimas_encoder}))
 ```
 
 ### How to add a typed encoder?
@@ -167,6 +136,7 @@ more generic encoder is used last, respecting Python's Method Resolution Order (
 To register a functional encoder, you simply pass the encoder to the chosen registration method omiting the type.
 
 All functional encoders are called only for objects that do not have a registered typed encoder.
+
 
 ## Contributing
 Pull requests are welcome and must have associated tests.
