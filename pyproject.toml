@@ -36,7 +36,7 @@ remove_redundant_aliases = true
 
 [tool.poetry]
 name = "jsonstar"
-version = "1.0.0"
+version = "1.1.0"
 description = "Extensible JSON module to serialize all objects."
 authors = ["Henrique Bastos <henrique@bastos.net>"]
 license = "MIT"
